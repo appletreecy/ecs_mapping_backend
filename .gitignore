@@ -1,2 +1,4 @@
 venv/
 .env
+fine_tune_model/
+fine_tuned_model/
