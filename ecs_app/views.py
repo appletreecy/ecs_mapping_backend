@@ -4,220 +4,194 @@ import numpy as np
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from sentence_transformers import SentenceTransformer
+from rank_bm25 import BM25Okapi
+from nltk.tokenize import word_tokenize
 from langchain_openai import ChatOpenAI
 from langchain.schema import AIMessage, HumanMessage, SystemMessage
-from .models import ECSMapping  # ✅ Using Django ORM
+from .models import ECSMapping, ECSMappingFeedback
+from .config import OPENAI_API_KEY
+import logging
+from rest_framework.response import Response
 
-from .config import  OPENAI_API_KEY
+logger = logging.getLogger("ecs_app")
 
 # Load AI Models
+logger.info("🔄 Loading AI Models...")
 model = SentenceTransformer("all-MiniLM-L6-v2")
 llm = ChatOpenAI(model_name="gpt-4", openai_api_key=OPENAI_API_KEY)
+logger.info("✅ AI Models Loaded Successfully!")
 
 
-# Fetch all stored ECS mappings using Django ORM
+# Fetch all stored ECS mappings
 def fetch_all_mappings():
-    """Fetch all ECS mappings from the database using Django ORM."""
-    mappings = ECSMapping.objects.all().values("log_field", "ecs_field", "embedding")
-    return list(mappings)  # Convert QuerySet to list
+    logger.debug("📥 Fetching all ECS mappings from the database...")
+    mappings = ECSMapping.objects.all().values("log_field", "ecs_field", "embedding", "description",
+                                               "example_log_values")
+    logger.debug(f"📋 Retrieved {len(mappings)} mappings from the database.")
+    return list(mappings)
 
 
-# Insert or update ECS mapping using Django ORM
-def insert_mapping(log_field, ecs_field, embedding):
-    """Insert or update ECS mapping using Django ORM."""
-    embedding_binary = pickle.dumps(embedding)  # Serialize embedding
-    mapping, created = ECSMapping.objects.update_or_create(
-        log_field=log_field,
-        defaults={"ecs_field": ecs_field, "embedding": embedding_binary},
-    )
-
-    if created:
-        print(f"✅ New ECS mapping created: {log_field} -> {ecs_field}")
-    else:
-        print(f"🔄 ECS mapping updated: {log_field} -> {ecs_field}")
-
-
-# Always initialize FAISS from MySQL dynamically using ORM
+# Initialize FAISS
 def initialize_faiss():
+    logger.info("🔄 Initializing FAISS index...")
     mappings = fetch_all_mappings()
+
     if not mappings:
-        print("⚠️ FAISS Initialization: No mappings found in database.")
-        return None  # No existing mappings yet
+        logger.warning("⚠️ No mappings found! FAISS index cannot be initialized.")
+        return None
 
     embeddings = np.vstack([pickle.loads(m["embedding"]) for m in mappings]).astype("float32")
-
-    # Create FAISS index
     dimension = embeddings.shape[1]
     index = faiss.IndexFlatL2(dimension)
     index.add(embeddings)
 
-    print(f"✅ FAISS Rebuilt with {len(mappings)} mappings!")
+    logger.info(f"✅ FAISS index initialized with {len(mappings)} entries.")
     return index
 
 
-# Load FAISS (Always from ORM)
+# Retrieve FAISS index
 def get_faiss_index():
+    logger.debug("📡 Retrieving FAISS index...")
     return initialize_faiss()
 
 
-# Find similar ECS mappings using FAISS (with similarity threshold)
-def find_similar_fields(log_field, top_k=3, similarity_threshold=0.8):
-    """Find similar ECS mappings using FAISS similarity search."""
+# Hybrid Search: FAISS (Embeddings) + BM25 (Text Matching)
+def find_similar_fields_hybrid(log_field, top_k=3):
+    """Hybrid search using FAISS + BM25."""
+    logger.info(f"🔍 Searching for similar ECS mappings for: {log_field}")
+
     faiss_index = get_faiss_index()
     if faiss_index is None:
-        print("⚠️ No FAISS index found. Returning no matches.")
-        return []  # No reference data yet
+        logger.warning("⚠️ FAISS index is empty. No similar fields found.")
+        return []
 
     query_embedding = model.encode([log_field]).astype("float32")
     distances, indices = faiss_index.search(query_embedding, top_k)
 
     mappings = fetch_all_mappings()
+    corpus = [m["log_field"] for m in mappings]
+    tokenized_corpus = [word_tokenize(doc.lower()) for doc in corpus]
+    bm25 = BM25Okapi(tokenized_corpus)
+    bm25_scores = bm25.get_scores(word_tokenize(log_field.lower()))
+
     matched_fields = []
-
-    print(f"🔎 Searching FAISS for: {log_field}")
-
     for idx, dist in zip(indices[0], distances[0]):
-        if idx < len(mappings):  # Ensure index is valid
-            similarity_score = 1 / (1 + dist)  # Convert distance to similarity score
-            matched_log_field = mappings[idx]["log_field"]
-            matched_ecs_field = mappings[idx]["ecs_field"]
+        if idx < len(mappings):
+            similarity_score = 1 / (1 + dist)
+            bm25_score = bm25_scores[idx] / max(bm25_scores) if max(bm25_scores) > 0 else 0
+            final_score = (0.7 * similarity_score) + (0.3 * bm25_score)
 
-            # ✅ Apply similarity threshold
-            if similarity_score >= similarity_threshold:
-                print(f"✅ FAISS Match Found (High Similarity): {matched_log_field} -> {matched_ecs_field} (Score: {similarity_score:.2f})")
-                matched_fields.append((matched_log_field, matched_ecs_field))
-            else:
-                print(f"❌ FAISS Match Rejected (Low Similarity): {matched_log_field} -> {matched_ecs_field} (Score: {similarity_score:.2f})")
+            matched_fields.append((mappings[idx]["log_field"], mappings[idx]["ecs_field"], final_score))
 
-    return matched_fields
+    matched_fields.sort(key=lambda x: x[2], reverse=True)
+    logger.info(f"✅ Found {len(matched_fields)} similar mappings for '{log_field}'.")
 
-# Find similar ECS mappings using FAISS (with similarity threshold)
-def find_similar_fields_for_ecs_mapping(log_field, top_k=3, similarity_threshold=0.8):
-    """Find similar ECS mappings using FAISS similarity search."""
-    faiss_index = get_faiss_index()
-    if faiss_index is None:
-        print("⚠️ No FAISS index found. Returning no matches.")
-        return []  # No reference data yet
-
-    query_embedding = model.encode([log_field]).astype("float32")
-    distances, indices = faiss_index.search(query_embedding, top_k)
-
-    mappings = fetch_all_mappings()
-    matched_fields = []
-
-    print(f"🔎 Searching FAISS for: {log_field}")
-
-    for idx, dist in zip(indices[0], distances[0]):
-        if idx < len(mappings):  # Ensure index is valid
-            similarity_score = 1 / (1 + dist)  # Convert distance to similarity score
-            matched_log_field = mappings[idx]["log_field"]
-            matched_ecs_field = mappings[idx]["ecs_field"]
-
-            # ✅ Apply similarity threshold
-            if similarity_score >= similarity_threshold:
-                print(f"✅ FAISS Match Found (High Similarity): {matched_log_field} -> {matched_ecs_field} (Score: {similarity_score:.2f})")
-                matched_fields.append((matched_log_field, matched_ecs_field))
-            else:
-                print(f"❌ FAISS Match Rejected (Low Similarity): {matched_log_field} -> {matched_ecs_field} (Score: {similarity_score:.2f})")
-                matched_fields.append((matched_log_field, matched_ecs_field))
-
-    return matched_fields
+    return matched_fields[:top_k]
 
 
-# Use LangChain ChatGPT for ECS mapping
 def chatgpt_ecs_mapping(log_field, similar_fields):
-    """Use ChatGPT to determine the correct ECS mapping for an unknown log field, ensuring only valid ECS fields are returned."""
+    """Use ChatGPT to determine ECS mapping with few-shot learning."""
+    logger.info(f"🤖 Calling ChatGPT for ECS mapping of: {log_field}")
+
+    few_shot_example = """
+    Example Mappings:
+    - source_ip -> source.address
+    - destination_ip -> destination.address
+    - user_agent -> user_agent.original
+    """
+
     similar_text = "\n".join([f"{sf[0]} -> {sf[1]}" for sf in similar_fields])
 
     messages = [
-        SystemMessage(content="You are an expert in mapping log fields to Elastic Common Schema (ECS). Your job is to provide the correct ECS field name."),
-        HumanMessage(content=f"Here are existing mappings:\n{similar_text}\n\nNow, map the following log field to its ECS equivalent:\n'{log_field}'\n\nProvide ONLY the ECS field name. If no direct match is available, return exactly 'none_ecs_field'. Do not provide explanations or additional text.")
+        SystemMessage(content="You are an expert in log processing and ECS mapping."),
+        HumanMessage(content=f"""
+        {few_shot_example}
+
+        Here are existing mappings:
+        {similar_text}
+
+        Now, map the following log field to its ECS equivalent:
+        '{log_field}'
+
+        Provide ONLY the ECS field name or return 'none_ecs_field' if no exact match exists.
+
+        """)
     ]
 
     response = llm(messages)
     ecs_field = response.content.strip()
 
-    print(f"ecs_field is {ecs_field}")
-
-    # Ensure the response is a valid ECS field or "none_ecs_field"
-    if ecs_field.lower() in ["none", "none_ecs_field", "no exact match", "not available", "note that ECS does not have a specific field for"]:
-        ecs_field = "none_ecs_field"
-
-    print(f"ChatGPT Mapping Response: {ecs_field}")  # ✅ Debugging log
-
-    return ecs_field
+    logger.info(f"📢 ChatGPT Response: {ecs_field}")
+    return ecs_field if ecs_field.lower() != "none" else "none_ecs_field"
 
 
+# Store confidence scores and insert into database
+def insert_mapping(log_field, ecs_field, embedding, confidence_score=0.8):
+    """Insert or update ECS mapping with confidence score."""
+    logger.info(f"💾 Storing ECS mapping: {log_field} -> {ecs_field} (Confidence: {confidence_score:.2f})")
 
-# Get stored ECS mapping using ORM
+    embedding_binary = pickle.dumps(embedding)
+    mapping, created = ECSMapping.objects.update_or_create(
+        log_field=log_field,
+        defaults={"ecs_field": ecs_field, "embedding": embedding_binary, "confidence_score": confidence_score}
+    )
+
+    logger.info(f"{'✅ Created' if created else '🔄 Updated'} Mapping: {log_field} -> {ecs_field}")
+
+# Retrieve stored mapping from Database
 def get_stored_mapping(log_field):
-    """Retrieve ECS mapping using Django ORM."""
+    """Retrieve stored ECS mapping from Django ORM."""
     mapping = ECSMapping.objects.filter(log_field=log_field).first()
     return mapping.ecs_field if mapping else None
 
-
-# API: Get or Create ECS Mapping
+# API Endpoint: Get or Create ECS Mapping
 @api_view(['POST'])
 def get_ecs_mapping(request):
-    """API Endpoint to retrieve or create an ECS mapping for a given log field."""
-    datas = request.data
+    """API Endpoint to retrieve or create an ECS mapping for given log fields."""
+    logger.info("📩 Received API request for ECS mapping.")
 
-    print(datas)
-
+    data = request.data.get("log_field", [])
     response_dict = {}
 
-    for data in datas["log_field"]:
-        log_field = data.strip()
-
-        if not log_field:
-            return JsonResponse({"error": "log_field is required"}, status=400)
+    for log_field in data:
+        logger.debug(f"🔍 Processing log field: {log_field}")
 
         stored_mapping = get_stored_mapping(log_field)
         if stored_mapping:
-            print(f"Using stored mapping: {log_field} -> {stored_mapping}")
-            # return JsonResponse({"log_field": log_field, "ecs_field": stored_mapping})
-
+            logger.info(f"✅ Using stored mapping: {log_field} -> {stored_mapping}")
             response_dict[log_field] = stored_mapping
+            continue
 
-        # Find similar fields using FAISS
-        similar_fields = find_similar_fields(log_field, top_k=3)
-
-        if similar_fields:
-            print(f"📌 FAISS returned: {similar_fields}")  # Debugging output
+        similar_fields = find_similar_fields_hybrid(log_field)
+        if similar_fields and similar_fields[0][2] >= 0.75:
+            response_dict[log_field] = similar_fields[0][1]  # Use top FAISS+BM25 match
+            logger.info(f"🎯 Found similar mapping: {log_field} -> {similar_fields[0][1]}")
         else:
-            print("❌😵"
-                  " FAISS found no similar fields.")
-
-        # If no strong match is found, use ChatGPT
-        if not similar_fields:
-
-            similar_fields_for_ecs_mapping = find_similar_fields_for_ecs_mapping(log_field, top_k=3)
-
-            new_mapping = chatgpt_ecs_mapping(log_field, similar_fields_for_ecs_mapping)
-
-            # Generate embedding for the log field
+            new_mapping = chatgpt_ecs_mapping(log_field, similar_fields)
             new_embedding = model.encode([log_field]).astype("float32")
-
-            # print(f"New embedding is: {new_embedding}")
-
-            print(f"new_mapping is {new_mapping}")
-
-            new_mapping = new_mapping.replace("'", "")
-
-            # Save to MySQL using Django ORM
             insert_mapping(log_field, new_mapping, new_embedding)
-
-            print(f"New mapping stored: {log_field} -> {new_mapping}")
-
             response_dict[log_field] = new_mapping
-            # return JsonResponse({"log_field": log_field, "ecs_field": new_mapping}) # ✅
+            logger.info(f"📢 ChatGPT-generated mapping stored: {log_field} -> {new_mapping}")
 
-        if similar_fields:
+    return Response(response_dict)
 
-            response_dict[log_field] = similar_fields[0][1]
 
-        # return JsonResponse({"log_field": log_field, "ecs_field": similar_fields[0][1]})  # Return the best FAISS match
+# API Endpoint: Store User Feedback on ECS Mapping
+@api_view(['POST'])
+def submit_feedback(request):
+    """API Endpoint to collect user feedback on ECS mapping."""
+    logger.info("📩 Received user feedback.")
 
-    print(response_dict)
+    data = request.data
+    log_field = data.get("log_field")
+    ecs_field = data.get("ecs_field")
+    correct = data.get("correct")
 
-    return JsonResponse(response_dict)
+    if not log_field or not ecs_field or correct is None:
+        logger.warning("⚠️ Missing required fields in feedback submission.")
+        return Response({"error": "Missing required fields"}, status=400)
+
+    ECSMappingFeedback.objects.create(log_field=log_field, ecs_field=ecs_field, correct=correct)
+    logger.info(f"✅ Feedback stored: {log_field} -> {ecs_field} (Correct: {correct})")
+
+    return Response({"message": "Feedback submitted successfully"})

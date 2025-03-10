@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-@bl*avs(oaz*dufk^^ji^z9tuh^8m3_c#^j5_dcey@(43+tzqw
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -136,3 +136,66 @@ from dotenv import load_dotenv
 
 # Load .env file
 load_dotenv()
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {name} {lineno} {module} {process} {thread} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': 'debug.log',
+            'formatter': 'verbose',
+        },
+        # Optional: Rotating files based on size or time
+        'rotating_file': {
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': 'app.log',
+            'maxBytes': 1024*1024*5,  # 5 MB
+            'backupCount': 5,
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'ecs_app': {  # Replace 'myapp' with your app's name
+            'handlers': ['console', 'rotating_file'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        '': {
+            'level': 'INFO',
+            'handlers': ['console',],
+        },
+    },
+}
+
+from celery.schedules import crontab  # ✅ Add this import
+
+
+CELERY_BEAT_SCHEDULE = {
+    "fine_tune_model_daily": {
+        "task": "ecs_app.tasks.train_model_task",
+        "schedule": crontab(minute=0, hour="*/2"),  # Runs daily at midnight
+    },
+}
+
+CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
+
