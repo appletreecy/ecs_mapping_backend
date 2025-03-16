@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 
+from django.conf.global_settings import AUTH_USER_MODEL
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -40,6 +42,7 @@ INSTALLED_APPS = [
     "corsheaders",
     'rest_framework', # Django REST Framework
     'ecs_app', # ECS mapping app
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -85,8 +88,20 @@ DATABASES = {
         'PASSWORD': 'splunk3du',
         'HOST': 'localhost',
         'PORT': '3306',
+    },
+    'users_db': {  # Dedicated user database
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'users_db',
+        'USER': 'root',
+        'PASSWORD': 'splunk3du',  # Set your password if required
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
+
 }
+
+DATABASE_ROUTERS = ['users.db_router.DatabaseRouter']
+
 
 
 # Password validation
@@ -198,4 +213,6 @@ CELERY_BEAT_SCHEDULE = {
 }
 
 CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
+
+AUTH_USER_MODEL = 'users.CustomUser'
 
