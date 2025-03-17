@@ -13,6 +13,11 @@ from .config import OPENAI_API_KEY
 import logging
 from rest_framework.response import Response
 
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
+
 logger = logging.getLogger("ecs_app")
 
 # Load AI Models
@@ -144,36 +149,70 @@ def get_stored_mapping(log_field):
     mapping = ECSMapping.objects.filter(log_field=log_field).first()
     return mapping.ecs_field if mapping else None
 
-# API Endpoint: Get or Create ECS Mapping
-@api_view(['POST'])
-def get_ecs_mapping(request):
-    """API Endpoint to retrieve or create an ECS mapping for given log fields."""
-    logger.info("📩 Received API request for ECS mapping.")
+# # API Endpoint: Get or Create ECS Mapping
+# @api_view(['POST'])
+# def get_ecs_mapping(request):
+#     """API Endpoint to retrieve or create an ECS mapping for given log fields."""
+#     logger.info("📩 Received API request for ECS mapping.")
+#
+#     data = request.data.get("log_field", [])
+#     response_dict = {}
+#
+#     for log_field in data:
+#         logger.debug(f"🔍 Processing log field: {log_field}")
+#
+#         stored_mapping = get_stored_mapping(log_field)
+#         if stored_mapping:
+#             logger.info(f"✅ Using stored mapping: {log_field} -> {stored_mapping}")
+#             response_dict[log_field] = stored_mapping
+#             continue
+#
+#         similar_fields = find_similar_fields_hybrid(log_field)
+#         if similar_fields and similar_fields[0][2] >= 0.75:
+#             response_dict[log_field] = similar_fields[0][1]  # Use top FAISS+BM25 match
+#             logger.info(f"🎯 Found similar mapping: {log_field} -> {similar_fields[0][1]}")
+#         else:
+#             new_mapping = chatgpt_ecs_mapping(log_field, similar_fields)
+#             new_embedding = model.encode([log_field]).astype("float32")
+#             insert_mapping(log_field, new_mapping, new_embedding)
+#             response_dict[log_field] = new_mapping
+#             logger.info(f"📢 ChatGPT-generated mapping stored: {log_field} -> {new_mapping}")
+#
+#     return Response(response_dict)
 
-    data = request.data.get("log_field", [])
-    response_dict = {}
+class GetECSMappingView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
 
-    for log_field in data:
-        logger.debug(f"🔍 Processing log field: {log_field}")
+    def post(self, request):
+        """Retrieve or create an ECS mapping for given log fields."""
+        logger.info("📩 Received API request for ECS mapping.")
 
-        stored_mapping = get_stored_mapping(log_field)
-        if stored_mapping:
-            logger.info(f"✅ Using stored mapping: {log_field} -> {stored_mapping}")
-            response_dict[log_field] = stored_mapping
-            continue
+        data = request.data.get("log_field", [])
+        response_dict = {}
 
-        similar_fields = find_similar_fields_hybrid(log_field)
-        if similar_fields and similar_fields[0][2] >= 0.75:
-            response_dict[log_field] = similar_fields[0][1]  # Use top FAISS+BM25 match
-            logger.info(f"🎯 Found similar mapping: {log_field} -> {similar_fields[0][1]}")
-        else:
-            new_mapping = chatgpt_ecs_mapping(log_field, similar_fields)
-            new_embedding = model.encode([log_field]).astype("float32")
-            insert_mapping(log_field, new_mapping, new_embedding)
-            response_dict[log_field] = new_mapping
-            logger.info(f"📢 ChatGPT-generated mapping stored: {log_field} -> {new_mapping}")
+        for log_field in data:
+            logger.debug(f"🔍 Processing log field: {log_field}")
 
-    return Response(response_dict)
+            stored_mapping = get_stored_mapping(log_field)
+            if stored_mapping:
+                logger.info(f"✅ Using stored mapping: {log_field} -> {stored_mapping}")
+                response_dict[log_field] = stored_mapping
+                continue
+
+            similar_fields = find_similar_fields_hybrid(log_field)
+            if similar_fields and similar_fields[0][2] >= 0.75:
+                response_dict[log_field] = similar_fields[0][1]
+                logger.info(f"🎯 Found similar mapping: {log_field} -> {similar_fields[0][1]}")
+            else:
+                new_mapping = chatgpt_ecs_mapping(log_field, similar_fields)
+                new_embedding = model.encode([log_field]).astype("float32")
+                insert_mapping(log_field, new_mapping, new_embedding)
+                response_dict[log_field] = new_mapping
+                logger.info(f"📢 ChatGPT-generated mapping stored: {log_field} -> {new_mapping}")
+
+        return Response(response_dict)
+
 
 
 # API Endpoint: Store User Feedback on ECS Mapping

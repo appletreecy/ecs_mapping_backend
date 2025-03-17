@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 
 from django.conf.global_settings import AUTH_USER_MODEL
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -215,4 +216,17 @@ CELERY_BEAT_SCHEDULE = {
 CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
 
 AUTH_USER_MODEL = 'users.CustomUser'
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),  # Token expires in 30 minutes
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),  # Refresh token lasts for 7 days
+    "ROTATE_REFRESH_TOKENS": False,
+    "BLACKLIST_AFTER_ROTATION": False,
+    "AUTH_HEADER_TYPES": ("Bearer",),
+}
+
+
+
 

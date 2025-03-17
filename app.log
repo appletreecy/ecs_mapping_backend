@@ -442,3 +442,71 @@ DEBUG 2025-03-16 22:26:32,812 ecs_app 157 views 5979 13647966208 🔍 Processing
 INFO 2025-03-16 22:26:32,813 ecs_app 161 views 5979 13647966208 ✅ Using stored mapping: department_id -> 'organization.id'
 DEBUG 2025-03-16 22:26:32,814 ecs_app 157 views 5979 13647966208 🔍 Processing log field: severity
 INFO 2025-03-16 22:26:32,816 ecs_app 161 views 5979 13647966208 ✅ Using stored mapping: severity -> 'event.severity'
+INFO 2025-03-16 22:44:06,692 ecs_app 24 views 8161 8738654272 🔄 Loading AI Models...
+INFO 2025-03-16 22:44:09,958 ecs_app 27 views 8161 8738654272 ✅ AI Models Loaded Successfully!
+INFO 2025-03-16 23:04:51,779 ecs_app 189 views 8161 14056042496 📩 Received API request for ECS mapping.
+DEBUG 2025-03-16 23:04:51,781 ecs_app 195 views 8161 14056042496 🔍 Processing log field: account_name
+INFO 2025-03-16 23:04:51,785 ecs_app 199 views 8161 14056042496 ✅ Using stored mapping: account_name -> 'user.name'
+DEBUG 2025-03-16 23:04:51,785 ecs_app 195 views 8161 14056042496 🔍 Processing log field: department_id
+INFO 2025-03-16 23:04:51,787 ecs_app 199 views 8161 14056042496 ✅ Using stored mapping: department_id -> 'organization.id'
+DEBUG 2025-03-16 23:04:51,787 ecs_app 195 views 8161 14056042496 🔍 Processing log field: severity
+INFO 2025-03-16 23:04:51,789 ecs_app 199 views 8161 14056042496 ✅ Using stored mapping: severity -> 'event.severity'
+INFO 2025-03-17 00:01:15,518 ecs_app 189 views 8161 14056042496 📩 Received API request for ECS mapping.
+DEBUG 2025-03-17 00:01:15,520 ecs_app 195 views 8161 14056042496 🔍 Processing log field: account_name
+INFO 2025-03-17 00:01:15,523 ecs_app 199 views 8161 14056042496 ✅ Using stored mapping: account_name -> 'user.name'
+DEBUG 2025-03-17 00:01:15,523 ecs_app 195 views 8161 14056042496 🔍 Processing log field: department_id
+INFO 2025-03-17 00:01:15,524 ecs_app 199 views 8161 14056042496 ✅ Using stored mapping: department_id -> 'organization.id'
+DEBUG 2025-03-17 00:01:15,525 ecs_app 195 views 8161 14056042496 🔍 Processing log field: severity
+INFO 2025-03-17 00:01:15,526 ecs_app 199 views 8161 14056042496 ✅ Using stored mapping: severity -> 'event.severity'
+INFO 2025-03-17 00:02:04,765 ecs_app 24 views 9332 8738654272 🔄 Loading AI Models...
+INFO 2025-03-17 00:02:07,713 ecs_app 27 views 9332 8738654272 ✅ AI Models Loaded Successfully!
+INFO 2025-03-17 00:03:25,794 ecs_app 189 views 9332 14331064320 📩 Received API request for ECS mapping.
+DEBUG 2025-03-17 00:03:25,795 ecs_app 195 views 9332 14331064320 🔍 Processing log field: account_name
+INFO 2025-03-17 00:03:25,799 ecs_app 199 views 9332 14331064320 ✅ Using stored mapping: account_name -> 'user.name'
+DEBUG 2025-03-17 00:03:25,799 ecs_app 195 views 9332 14331064320 🔍 Processing log field: department_id
+INFO 2025-03-17 00:03:25,801 ecs_app 199 views 9332 14331064320 ✅ Using stored mapping: department_id -> 'organization.id'
+DEBUG 2025-03-17 00:03:25,801 ecs_app 195 views 9332 14331064320 🔍 Processing log field: severity
+INFO 2025-03-17 00:03:25,803 ecs_app 199 views 9332 14331064320 ✅ Using stored mapping: severity -> 'event.severity'
+INFO 2025-03-17 00:09:58,189 ecs_app 189 views 9332 14331064320 📩 Received API request for ECS mapping.
+DEBUG 2025-03-17 00:09:58,190 ecs_app 195 views 9332 14331064320 🔍 Processing log field: account_name
+INFO 2025-03-17 00:09:58,193 ecs_app 199 views 9332 14331064320 ✅ Using stored mapping: account_name -> 'user.name'
+DEBUG 2025-03-17 00:09:58,193 ecs_app 195 views 9332 14331064320 🔍 Processing log field: department_id
+INFO 2025-03-17 00:09:58,195 ecs_app 199 views 9332 14331064320 ✅ Using stored mapping: department_id -> 'organization.id'
+DEBUG 2025-03-17 00:09:58,196 ecs_app 195 views 9332 14331064320 🔍 Processing log field: severity
+INFO 2025-03-17 00:09:58,198 ecs_app 199 views 9332 14331064320 ✅ Using stored mapping: severity -> 'event.severity'
+INFO 2025-03-17 00:16:35,149 ecs_app 189 views 9332 14331064320 📩 Received API request for ECS mapping.
+DEBUG 2025-03-17 00:16:35,149 ecs_app 195 views 9332 14331064320 🔍 Processing log field: account_name
+INFO 2025-03-17 00:16:35,152 ecs_app 199 views 9332 14331064320 ✅ Using stored mapping: account_name -> 'user.name'
+DEBUG 2025-03-17 00:16:35,152 ecs_app 195 views 9332 14331064320 🔍 Processing log field: department_id
+INFO 2025-03-17 00:16:35,154 ecs_app 199 views 9332 14331064320 ✅ Using stored mapping: department_id -> 'organization.id'
+DEBUG 2025-03-17 00:16:35,154 ecs_app 195 views 9332 14331064320 🔍 Processing log field: severity
+INFO 2025-03-17 00:16:35,156 ecs_app 199 views 9332 14331064320 ✅ Using stored mapping: severity -> 'event.severity'
+INFO 2025-03-17 00:19:32,190 ecs_app 24 views 9677 8738654272 🔄 Loading AI Models...
+INFO 2025-03-17 00:19:35,851 ecs_app 27 views 9677 8738654272 ✅ AI Models Loaded Successfully!
+INFO 2025-03-17 00:20:02,885 ecs_app 189 views 9677 13994569728 📩 Received API request for ECS mapping.
+DEBUG 2025-03-17 00:20:02,886 ecs_app 195 views 9677 13994569728 🔍 Processing log field: account_name
+INFO 2025-03-17 00:20:02,889 ecs_app 199 views 9677 13994569728 ✅ Using stored mapping: account_name -> 'user.name'
+DEBUG 2025-03-17 00:20:02,890 ecs_app 195 views 9677 13994569728 🔍 Processing log field: department_id
+INFO 2025-03-17 00:20:02,891 ecs_app 199 views 9677 13994569728 ✅ Using stored mapping: department_id -> 'organization.id'
+DEBUG 2025-03-17 00:20:02,892 ecs_app 195 views 9677 13994569728 🔍 Processing log field: severity
+INFO 2025-03-17 00:20:02,894 ecs_app 199 views 9677 13994569728 ✅ Using stored mapping: severity -> 'event.severity'
+INFO 2025-03-17 00:24:23,216 ecs_app 24 views 9776 8738654272 🔄 Loading AI Models...
+INFO 2025-03-17 00:24:26,178 ecs_app 27 views 9776 8738654272 ✅ AI Models Loaded Successfully!
+INFO 2025-03-17 00:25:38,492 ecs_app 24 views 9798 8738654272 🔄 Loading AI Models...
+INFO 2025-03-17 00:25:41,787 ecs_app 27 views 9798 8738654272 ✅ AI Models Loaded Successfully!
+INFO 2025-03-17 00:26:04,611 ecs_app 189 views 9798 14357934080 📩 Received API request for ECS mapping.
+DEBUG 2025-03-17 00:26:04,611 ecs_app 195 views 9798 14357934080 🔍 Processing log field: account_name
+INFO 2025-03-17 00:26:04,614 ecs_app 199 views 9798 14357934080 ✅ Using stored mapping: account_name -> 'user.name'
+DEBUG 2025-03-17 00:26:04,615 ecs_app 195 views 9798 14357934080 🔍 Processing log field: department_id
+INFO 2025-03-17 00:26:04,616 ecs_app 199 views 9798 14357934080 ✅ Using stored mapping: department_id -> 'organization.id'
+DEBUG 2025-03-17 00:26:04,616 ecs_app 195 views 9798 14357934080 🔍 Processing log field: severity
+INFO 2025-03-17 00:26:04,617 ecs_app 199 views 9798 14357934080 ✅ Using stored mapping: severity -> 'event.severity'
+INFO 2025-03-17 00:28:41,536 ecs_app 189 views 9798 14341107712 📩 Received API request for ECS mapping.
+DEBUG 2025-03-17 00:28:41,536 ecs_app 195 views 9798 14341107712 🔍 Processing log field: account_name
+INFO 2025-03-17 00:28:41,538 ecs_app 199 views 9798 14341107712 ✅ Using stored mapping: account_name -> 'user.name'
+DEBUG 2025-03-17 00:28:41,538 ecs_app 195 views 9798 14341107712 🔍 Processing log field: department_id
+INFO 2025-03-17 00:28:41,538 ecs_app 199 views 9798 14341107712 ✅ Using stored mapping: department_id -> 'organization.id'
+DEBUG 2025-03-17 00:28:41,538 ecs_app 195 views 9798 14341107712 🔍 Processing log field: severity
+INFO 2025-03-17 00:28:41,539 ecs_app 199 views 9798 14341107712 ✅ Using stored mapping: severity -> 'event.severity'
+INFO 2025-03-17 00:29:39,890 ecs_app 24 views 9927 8738654272 🔄 Loading AI Models...
+INFO 2025-03-17 00:29:42,884 ecs_app 27 views 9927 8738654272 ✅ AI Models Loaded Successfully!

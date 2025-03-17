@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import get_ecs_mapping
+from .views import GetECSMappingView
 
 urlpatterns = [
-    path('mappings/ecs/', get_ecs_mapping),
+    path('mappings/ecs/', GetECSMappingView.as_view(), name='get-ecs-mapping'),
 ]

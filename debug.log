@@ -399,3 +399,126 @@ INFO 2025-03-16 22:26:02,251 django.server 212 basehttp 5979 13647966208 "OPTION
 INFO 2025-03-16 22:26:02,480 django.server 212 basehttp 5979 13647966208 "POST /api/token/ HTTP/1.1" 200 483
 INFO 2025-03-16 22:26:32,800 django.server 212 basehttp 5979 13647966208 "OPTIONS /api/mappings/ecs/ HTTP/1.1" 200 0
 INFO 2025-03-16 22:26:32,817 django.server 212 basehttp 5979 13647966208 "POST /api/mappings/ecs/ HTTP/1.1" 200 96
+INFO 2025-03-16 22:43:59,521 django.utils.autoreload 668 autoreload 8161 8738654272 Watching for file changes with StatReloader
+INFO 2025-03-16 22:44:38,384 django.server 212 basehttp 8161 14039216128 "POST /api/token/ HTTP/1.1" 200 483
+WARNING 2025-03-16 22:44:52,108 django.request 241 log 8161 14056042496 Unauthorized: /api/mappings/ecs/
+WARNING 2025-03-16 22:44:52,110 django.server 212 basehttp 8161 14056042496 "POST /api/mappings/ecs/ HTTP/1.1" 401 58
+WARNING 2025-03-16 22:45:11,560 django.request 241 log 8161 14056042496 Unauthorized: /api/mappings/ecs/
+WARNING 2025-03-16 22:45:11,561 django.server 212 basehttp 8161 14056042496 "POST /api/mappings/ecs/ HTTP/1.1" 401 58
+INFO 2025-03-16 22:58:33,876 django.server 212 basehttp 8161 14039216128 "POST /api/token/ HTTP/1.1" 200 483
+WARNING 2025-03-16 22:58:47,693 django.request 241 log 8161 14056042496 Unauthorized: /api/mappings/ecs/
+WARNING 2025-03-16 22:58:47,694 django.server 212 basehttp 8161 14056042496 "POST /api/mappings/ecs/ HTTP/1.1" 401 58
+WARNING 2025-03-16 22:58:51,717 django.request 241 log 8161 14056042496 Unauthorized: /api/mappings/ecs/
+WARNING 2025-03-16 22:58:51,718 django.server 212 basehttp 8161 14056042496 "POST /api/mappings/ecs/ HTTP/1.1" 401 58
+WARNING 2025-03-16 22:59:26,719 django.request 241 log 8161 14056042496 Unauthorized: /api/mappings/ecs/
+WARNING 2025-03-16 22:59:26,720 django.server 212 basehttp 8161 14056042496 "POST /api/mappings/ecs/ HTTP/1.1" 401 58
+WARNING 2025-03-16 23:00:47,955 django.request 241 log 8161 14056042496 Unauthorized: /api/mappings/ecs/
+WARNING 2025-03-16 23:00:47,957 django.server 212 basehttp 8161 14056042496 "POST /api/mappings/ecs/ HTTP/1.1" 401 58
+INFO 2025-03-16 23:01:12,772 django.server 212 basehttp 8161 14039216128 "POST /api/token/ HTTP/1.1" 200 483
+WARNING 2025-03-16 23:01:17,364 django.request 241 log 8161 14056042496 Unauthorized: /api/mappings/ecs/
+WARNING 2025-03-16 23:01:17,365 django.server 212 basehttp 8161 14056042496 "POST /api/mappings/ecs/ HTTP/1.1" 401 58
+WARNING 2025-03-16 23:01:43,682 django.request 241 log 8161 14056042496 Unauthorized: /api/mappings/ecs/
+WARNING 2025-03-16 23:01:43,684 django.server 212 basehttp 8161 14056042496 "POST /api/mappings/ecs/ HTTP/1.1" 401 58
+INFO 2025-03-16 23:04:38,312 django.server 212 basehttp 8161 14039216128 "POST /api/token/ HTTP/1.1" 200 483
+INFO 2025-03-16 23:04:51,790 django.server 212 basehttp 8161 14056042496 "POST /api/mappings/ecs/ HTTP/1.1" 200 96
+WARNING 2025-03-16 23:51:22,309 django.request 241 log 8161 14039216128 Unauthorized: /api/mappings/ecs/
+WARNING 2025-03-16 23:51:22,311 django.server 212 basehttp 8161 14039216128 "POST /api/mappings/ecs/ HTTP/1.1" 401 172
+INFO 2025-03-17 00:01:04,143 django.server 212 basehttp 8161 14039216128 "POST /api/token/ HTTP/1.1" 200 483
+INFO 2025-03-17 00:01:15,527 django.server 212 basehttp 8161 14056042496 "POST /api/mappings/ecs/ HTTP/1.1" 200 96
+INFO 2025-03-17 00:02:00,514 django.utils.autoreload 266 autoreload 8161 8738654272 /Users/steven/Desktop/tmp/python_pg/ecs_mapping_webapp/ecs_project/ecs_project/settings.py changed, reloading.
+INFO 2025-03-17 00:02:01,300 django.utils.autoreload 668 autoreload 9332 8738654272 Watching for file changes with StatReloader
+INFO 2025-03-17 00:03:18,661 django.server 212 basehttp 9332 14314237952 "POST /api/token/ HTTP/1.1" 200 483
+INFO 2025-03-17 00:03:25,804 django.server 212 basehttp 9332 14331064320 "POST /api/mappings/ecs/ HTTP/1.1" 200 96
+WARNING 2025-03-17 00:06:45,901 django.request 241 log 9332 14331064320 Unauthorized: /api/mappings/ecs/
+WARNING 2025-03-17 00:06:45,903 django.server 212 basehttp 9332 14331064320 "POST /api/mappings/ecs/ HTTP/1.1" 401 172
+WARNING 2025-03-17 00:06:49,468 django.request 241 log 9332 14331064320 Unauthorized: /api/mappings/ecs/
+WARNING 2025-03-17 00:06:49,469 django.server 212 basehttp 9332 14331064320 "POST /api/mappings/ecs/ HTTP/1.1" 401 172
+WARNING 2025-03-17 00:06:50,326 django.request 241 log 9332 14331064320 Unauthorized: /api/mappings/ecs/
+WARNING 2025-03-17 00:06:50,327 django.server 212 basehttp 9332 14331064320 "POST /api/mappings/ecs/ HTTP/1.1" 401 172
+WARNING 2025-03-17 00:06:50,752 django.request 241 log 9332 14331064320 Unauthorized: /api/mappings/ecs/
+WARNING 2025-03-17 00:06:50,753 django.server 212 basehttp 9332 14331064320 "POST /api/mappings/ecs/ HTTP/1.1" 401 172
+INFO 2025-03-17 00:09:49,271 django.server 212 basehttp 9332 14314237952 "POST /api/token/ HTTP/1.1" 200 483
+INFO 2025-03-17 00:09:58,199 django.server 212 basehttp 9332 14331064320 "POST /api/mappings/ecs/ HTTP/1.1" 200 96
+WARNING 2025-03-17 00:12:07,014 django.request 241 log 9332 14331064320 Unauthorized: /api/mappings/ecs/
+WARNING 2025-03-17 00:12:07,014 django.server 212 basehttp 9332 14331064320 "POST /api/mappings/ecs/ HTTP/1.1" 401 172
+INFO 2025-03-17 00:12:07,018 django.server 212 basehttp 9332 14331064320 "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+ERROR 2025-03-17 00:12:07,089 django.request 241 log 9332 14331064320 Internal Server Error: /api/token/refresh/
+Traceback (most recent call last):
+  File "/Users/steven/Desktop/tmp/python_pg/ecs_mapping_webapp/.venv/lib/python3.9/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/Users/steven/Desktop/tmp/python_pg/ecs_mapping_webapp/.venv/lib/python3.9/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/steven/Desktop/tmp/python_pg/ecs_mapping_webapp/.venv/lib/python3.9/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/Users/steven/Desktop/tmp/python_pg/ecs_mapping_webapp/.venv/lib/python3.9/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Users/steven/Desktop/tmp/python_pg/ecs_mapping_webapp/.venv/lib/python3.9/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/Users/steven/Desktop/tmp/python_pg/ecs_mapping_webapp/.venv/lib/python3.9/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/Users/steven/Desktop/tmp/python_pg/ecs_mapping_webapp/.venv/lib/python3.9/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/Users/steven/Desktop/tmp/python_pg/ecs_mapping_webapp/.venv/lib/python3.9/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Users/steven/Desktop/tmp/python_pg/ecs_mapping_webapp/.venv/lib/python3.9/site-packages/rest_framework_simplejwt/views.py", line 44, in post
+    serializer.is_valid(raise_exception=True)
+  File "/Users/steven/Desktop/tmp/python_pg/ecs_mapping_webapp/.venv/lib/python3.9/site-packages/rest_framework/serializers.py", line 223, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "/Users/steven/Desktop/tmp/python_pg/ecs_mapping_webapp/.venv/lib/python3.9/site-packages/rest_framework/serializers.py", line 445, in run_validation
+    value = self.validate(value)
+  File "/Users/steven/Desktop/tmp/python_pg/ecs_mapping_webapp/.venv/lib/python3.9/site-packages/rest_framework_simplejwt/serializers.py", line 141, in validate
+    refresh.outstand()
+  File "/Users/steven/Desktop/tmp/python_pg/ecs_mapping_webapp/.venv/lib/python3.9/site-packages/rest_framework_simplejwt/tokens.py", line 222, in outstand
+    return OutstandingToken.objects.get_or_create(
+AttributeError: type object 'OutstandingToken' has no attribute 'objects'
+ERROR 2025-03-17 00:12:07,111 django.server 212 basehttp 9332 14331064320 "POST /api/token/refresh/ HTTP/1.1" 500 111786
+INFO 2025-03-17 00:16:31,729 django.server 212 basehttp 9332 14314237952 "POST /api/token/ HTTP/1.1" 200 483
+INFO 2025-03-17 00:16:35,157 django.server 212 basehttp 9332 14331064320 "POST /api/mappings/ecs/ HTTP/1.1" 200 96
+INFO 2025-03-17 00:19:27,961 django.utils.autoreload 266 autoreload 9332 8738654272 /Users/steven/Desktop/tmp/python_pg/ecs_mapping_webapp/ecs_project/ecs_project/settings.py changed, reloading.
+INFO 2025-03-17 00:19:28,793 django.utils.autoreload 668 autoreload 9677 8738654272 Watching for file changes with StatReloader
+INFO 2025-03-17 00:19:53,911 django.server 212 basehttp 9677 13977743360 "POST /api/token/ HTTP/1.1" 200 483
+INFO 2025-03-17 00:20:02,895 django.server 212 basehttp 9677 13994569728 "POST /api/mappings/ecs/ HTTP/1.1" 200 96
+WARNING 2025-03-17 00:23:39,972 django.request 241 log 9677 13994569728 Unauthorized: /api/mappings/ecs/
+WARNING 2025-03-17 00:23:39,973 django.server 212 basehttp 9677 13994569728 "POST /api/mappings/ecs/ HTTP/1.1" 401 172
+ERROR 2025-03-17 00:23:40,045 django.request 241 log 9677 13994569728 Internal Server Error: /api/token/refresh/
+Traceback (most recent call last):
+  File "/Users/steven/Desktop/tmp/python_pg/ecs_mapping_webapp/.venv/lib/python3.9/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/Users/steven/Desktop/tmp/python_pg/ecs_mapping_webapp/.venv/lib/python3.9/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/steven/Desktop/tmp/python_pg/ecs_mapping_webapp/.venv/lib/python3.9/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/Users/steven/Desktop/tmp/python_pg/ecs_mapping_webapp/.venv/lib/python3.9/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Users/steven/Desktop/tmp/python_pg/ecs_mapping_webapp/.venv/lib/python3.9/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/Users/steven/Desktop/tmp/python_pg/ecs_mapping_webapp/.venv/lib/python3.9/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/Users/steven/Desktop/tmp/python_pg/ecs_mapping_webapp/.venv/lib/python3.9/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/Users/steven/Desktop/tmp/python_pg/ecs_mapping_webapp/.venv/lib/python3.9/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/Users/steven/Desktop/tmp/python_pg/ecs_mapping_webapp/.venv/lib/python3.9/site-packages/rest_framework_simplejwt/views.py", line 44, in post
+    serializer.is_valid(raise_exception=True)
+  File "/Users/steven/Desktop/tmp/python_pg/ecs_mapping_webapp/.venv/lib/python3.9/site-packages/rest_framework/serializers.py", line 223, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "/Users/steven/Desktop/tmp/python_pg/ecs_mapping_webapp/.venv/lib/python3.9/site-packages/rest_framework/serializers.py", line 445, in run_validation
+    value = self.validate(value)
+  File "/Users/steven/Desktop/tmp/python_pg/ecs_mapping_webapp/.venv/lib/python3.9/site-packages/rest_framework_simplejwt/serializers.py", line 141, in validate
+    refresh.outstand()
+  File "/Users/steven/Desktop/tmp/python_pg/ecs_mapping_webapp/.venv/lib/python3.9/site-packages/rest_framework_simplejwt/tokens.py", line 222, in outstand
+    return OutstandingToken.objects.get_or_create(
+AttributeError: type object 'OutstandingToken' has no attribute 'objects'
+ERROR 2025-03-17 00:23:40,066 django.server 212 basehttp 9677 13994569728 "POST /api/token/refresh/ HTTP/1.1" 500 111851
+INFO 2025-03-17 00:24:19,676 django.utils.autoreload 266 autoreload 9677 8738654272 /Users/steven/Desktop/tmp/python_pg/ecs_mapping_webapp/ecs_project/ecs_project/settings.py changed, reloading.
+INFO 2025-03-17 00:24:20,404 django.utils.autoreload 668 autoreload 9776 8738654272 Watching for file changes with StatReloader
+INFO 2025-03-17 00:25:35,033 django.utils.autoreload 266 autoreload 9776 8738654272 /Users/steven/Desktop/tmp/python_pg/ecs_mapping_webapp/ecs_project/ecs_project/settings.py changed, reloading.
+INFO 2025-03-17 00:25:35,739 django.utils.autoreload 668 autoreload 9798 8738654272 Watching for file changes with StatReloader
+INFO 2025-03-17 00:25:53,439 django.server 212 basehttp 9798 14341107712 "POST /api/token/ HTTP/1.1" 200 483
+INFO 2025-03-17 00:26:04,618 django.server 212 basehttp 9798 14357934080 "POST /api/mappings/ecs/ HTTP/1.1" 200 96
+WARNING 2025-03-17 00:28:41,522 django.request 241 log 9798 14341107712 Unauthorized: /api/mappings/ecs/
+WARNING 2025-03-17 00:28:41,522 django.server 212 basehttp 9798 14341107712 "POST /api/mappings/ecs/ HTTP/1.1" 401 172
+INFO 2025-03-17 00:28:41,529 django.server 212 basehttp 9798 14341107712 "POST /api/token/refresh/ HTTP/1.1" 200 241
+INFO 2025-03-17 00:28:41,539 django.server 212 basehttp 9798 14341107712 "POST /api/mappings/ecs/ HTTP/1.1" 200 96
+INFO 2025-03-17 00:29:35,903 django.utils.autoreload 266 autoreload 9798 8738654272 /Users/steven/Desktop/tmp/python_pg/ecs_mapping_webapp/ecs_project/ecs_project/settings.py changed, reloading.
+INFO 2025-03-17 00:29:36,642 django.utils.autoreload 668 autoreload 9927 8738654272 Watching for file changes with StatReloader
